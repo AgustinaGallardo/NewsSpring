@@ -16,8 +16,7 @@
 <div class="container">
   <h1 class="mt-5">Modificar Noticia</h1>
 
-  <!-- Formulario de Modificación de Noticia -->
-  <form action="/news/modifyNews/{id}" method="post">
+    <form class="formulario" th:action="@{/news/modifyNews/__${id}__}" method="POST">
     <!-- Campos ocultos para el ID de la noticia -->
     <input type="hidden" name="id" th:value="${news.id}" />
 

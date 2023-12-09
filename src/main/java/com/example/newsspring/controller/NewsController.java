@@ -1,16 +1,19 @@
 package com.example.newsspring.controller;
 
 import com.example.newsspring.Exceptions.MyException;
+import com.example.newsspring.dtos.NewsDto;
 import com.example.newsspring.entity.News;
 import com.example.newsspring.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/news")
 public class NewsController {
 
@@ -21,15 +24,22 @@ public class NewsController {
     public String register(){
         return "news_form";
     }
+
     @PostMapping("/create")
-    public String createNews(@RequestParam String title,@RequestParam String body){
+    public ResponseEntity<NewsDto> createNews(@RequestBody NewsDto newsDto){
         try {
-            newsService.createNews(title,body);
-        } catch (MyException e) {
-            throw new RuntimeException(e);
+            newsService.createNews(newsDto);
+            return ResponseEntity.ok(newsDto);
+        } catch (MyException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-        return "index.html";
     }
+
+    /**
+     *
+      * @param model
+     * @return
+
     @GetMapping("/list")
     public String listNews(ModelMap model){
         List<News> listNews = newsService.listNews();
@@ -52,7 +62,7 @@ public class NewsController {
             modelo.put("error", ex.getMessage());
             return "news_modify.html";
         }
-    }
+    }*/
 
 
 
